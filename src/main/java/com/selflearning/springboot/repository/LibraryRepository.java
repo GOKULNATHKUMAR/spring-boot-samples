@@ -8,4 +8,6 @@ import com.selflearning.springboot.model.Library;
 @Repository
 public interface LibraryRepository extends JpaRepository<Library, Long> {
 
+	Library findById(Long id);
+
 }
