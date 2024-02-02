@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.selflearning.springboot.exception.ItemNotFoundException;
 import com.selflearning.springboot.model.Library;
 import com.selflearning.springboot.repository.LibraryRepository;
 
@@ -28,7 +29,13 @@ public class LibraryController {
 	}
 	@GetMapping("/get/{id}")
 	public Library getById(@PathVariable Long id) {
-		return libraryRepository.findById(id);
+		Library ref=new Library();
+		try {
+			 ref=libraryRepository.findById(id);
+		}catch(Exception e) {
+			throw new ItemNotFoundException(id);
+		}
+		return ref;
 	}
 	@PostMapping("/create")
 	public Library createBook(@RequestBody Library lib) {
@@ -42,4 +49,5 @@ public class LibraryController {
 	public void deleteBook(@PathVariable Long id) {
 		libraryRepository.delete(id);
 	}
+	
 }
